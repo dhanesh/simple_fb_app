@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'omniauth/oauth'
+require 'omniauth-facebook'
 
 enable :sessions
 
@@ -7,20 +7,19 @@ enable :sessions
 APP_ID = "249002731901637"
 APP_SECRET = "8c6b419b892ccd25ec7ca59d60ec8bce"
 
+SCOPE = 'email,user_likes'
+
+use Rack::Session::Cookie
+
 use OmniAuth::Builder do
-	puts 'Creating provider...'
-	provider :facebook, APP_ID, APP_SECRET, { :scope => 'email, status_update, publish_stream' }
-	puts 'Provider created successfully'
+	provider :facebook, APP_ID, APP_SECRET, :scope => SCOPE
 end
 
 get '/' do
-	puts 'Creating articles'
 	@articles = []
 	@articles << { :title => "Deploying Rack-based apps to Heroku", :url => "http://docs.heroku.com/rack"}
 	@articles << { :title => "Learn ruby in 20 minutes", :url => "http://tryruby.org"}
-	puts 'Articles created successfully'
 	erb :index
-	puts 'Rendering articles done successfully'
 end
 
 get '/auth/facebook/callback' do
