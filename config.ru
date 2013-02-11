@@ -1,3 +1,3 @@
-require '.\mylikes.rb'
+require './mylikes.rb'
 
 run Sinatra::Application
