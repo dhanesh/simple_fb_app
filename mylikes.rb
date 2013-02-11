@@ -9,11 +9,11 @@ include Koala
 
 enable :sessions
 
-SITE_URL = 'http://localhost:4567/'
+SITE_URL = 'http://mylikesonfacebook.herokuapp.com/'
 
 #Here is the application id and secret
-APP_ID = 264737713658984
-APP_SECRET = "d60424ea8fee0f2df36480fefb07efa5"
+APP_ID = 414082215348551
+APP_SECRET = "50029ee89725c434ae9ea57030698fb0"
 
 SCOPE = 'user_likes'
 
