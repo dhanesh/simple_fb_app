@@ -3,4 +3,6 @@ source "https://rubygems.org"
 
 # gem "rails"
 gem 'sinatra'
-gem  'omniauth-facebook'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'koala'

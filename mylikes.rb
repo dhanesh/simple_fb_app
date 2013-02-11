@@ -1,47 +1,51 @@
+APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__)))
+
+require 'rubygems'
 require 'sinatra'
-require 'omniauth-facebook'
+require 'koala'
+require 'yaml'
+
+include Koala
 
 enable :sessions
 
+SITE_URL = 'http://localhost:4567/'
+
 #Here is the application id and secret
-APP_ID = "249002731901637"
-APP_SECRET = "8c6b419b892ccd25ec7ca59d60ec8bce"
+APP_ID = 264737713658984
+APP_SECRET = "d60424ea8fee0f2df36480fefb07efa5"
 
-SCOPE = 'email,user_likes'
+SCOPE = 'user_likes'
 
-use Rack::Session::Cookie
+set :root, APP_ROOT
 
-use OmniAuth::Builder do
-	provider :facebook, APP_ID, APP_SECRET, :scope => SCOPE
-end
+use Rack::Session::Cookie, secret: 'BettyButterBoughtSomeButter'
 
 get '/' do
-	@articles = []
-	@articles << { :title => "Deploying Rack-based apps to Heroku", :url => "http://docs.heroku.com/rack"}
-	@articles << { :title => "Learn ruby in 20 minutes", :url => "http://tryruby.org"}
-	erb :index
+	if session['access_token']
+		@graph = Facebook::API.new(session['access_token'])
+		@profile = @graph.get_object('me')
+		@likes = @graph.get_connection("me", "likes")
+		erb :index
+	else
+		erb :index
+	end
 end
 
-get '/auth/facebook/callback' do
-	session['fb_auth'] = request.env['omniauth.auth']
-	session['fb_token'] = session['fb_auth']['credentials']['token']
-	session['fb_error'] = nil
-	redirect '/'
-end
 
-get '/auth/failure' do
-	clear_session
-	session['fb_error'] = 'In order to use this site, you must allow us to access your Facebook data<br/>'
-	redirect '/'
+get '/login' do
+	session['oauth'] = Facebook::OAuth.new(APP_ID, APP_SECRET, SITE_URL + 'callback')
+
+	redirect session['oauth'].url_for_oauth_code()
 end
 
 get '/logout' do
-	clear_session
+	session['oauth'] = nil
+	session['access_token'] = nil
 	redirect '/'
 end
 
-def clear_session
-	session['fb_auth'] = nil
-	session['fb_token'] = nil
-	session['fb_error'] = nil
+get '/callback' do
+	session['access_token'] = session['oauth'].get_access_token(params[:code])
+	redirect '/'
 end
