@@ -12,14 +12,14 @@ enable :sessions
 SITE_URL = 'http://localhost:4567/'
 
 #Here is the application id and secret
-APP_ID = 264737713658984
-APP_SECRET = "d60424ea8fee0f2df36480fefb07efa5"
+APP_ID = "Your ID Here"
+APP_SECRET = "Your App Secret here"
 
 SCOPE = ['email','user_likes']
 
 set :root, APP_ROOT
 
-use Rack::Session::Cookie, secret: 'BettyButterBoughtSomeButter'
+use Rack::Session::Cookie, secret: 'BettyButterBoughtSomeButter' #secret passs phrase for cookie
 
 get '/' do
 	if session['access_token']

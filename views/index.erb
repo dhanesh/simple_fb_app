@@ -1,7 +1,12 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="facebook.css">
+</head>
+<body>
 <% if session['access_token'] %>
-  Welcome, <%= @profile["name"] %> | <a href='/logout'>Logout</a>
+  Welcome, <%= @profile["name"] %> | <a href='/logout' class="gray" >Logout</a>
 <% else %>
-  <a href='/login'>Login</a>
+  <a href='/login' class="blue" >Login</a>
 <% end %>
 
 <h3>Welcome to your Likes page</h3>
@@ -14,3 +19,5 @@
 <% else %>
   <div>Please login to see your likes</div>  
 <% end %>
+</body>
+</html>
