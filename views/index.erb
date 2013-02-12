@@ -1,23 +1,41 @@
-<html>
-<head>
-<link rel="stylesheet" type="text/css" href="facebook.css">
-</head>
-<body>
-<% if session['access_token'] %>
-  Welcome, <%= @profile["name"] %> | <a href='/logout' class="gray" >Logout</a>
-<% else %>
-  <a href='/login' class="blue" >Login</a>
-<% end %>
+<div class="container">
+	<% if session['access_token'] %>
+	<div class="action-bar">
+		<div class='text'>Welcome, <%= @profile["name"] %> <a href='/logout' class="button" >Logout</a></div>
+	</div>
+	<% else %>
+	<div class="action-bar">
+			<a href='/login' class="button" >Login</a>
+	</div>
+	<% end %>
+	<table>
+		<tr>
+			<td style='width:15%;'>&nbsp;</td>
+			<td style='width:70%;'>
+				<h1>Welcome to your Likes page</h1>
+			</td>
+			<td style='width:15%;'>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>
+			<% if @likes %>
 
-<h3>Welcome to your Likes page</h3>
-<% if @likes %>
-<div>
-  <% @likes.each do |like| %>
-    <div><%= like["name"] %></div><br/>
-  <% end %>
+				<ul class='stream'>
+				  <% @likes.each do |like| %>
+				    <li ><%= like["name"] %></li>
+				  <% end %>
+				</ul>
+			<% else %>
+			 	<div>Please login to see your likes</div>  
+			<% end %>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
 </div>
-<% else %>
-  <div>Please login to see your likes</div>  
-<% end %>
-</body>
-</html>

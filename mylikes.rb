@@ -9,17 +9,17 @@ include Koala
 
 enable :sessions
 
-SITE_URL = 'http://localhost:4567/'
+SITE_URL = 'http://mylikesonfacebook.herokuapp.com/'
 
 #Here is the application id and secret
-APP_ID = "Your ID Here"
-APP_SECRET = "Your App Secret here"
+APP_ID = 414082215348551
+APP_SECRET = "50029ee89725c434ae9ea57030698fb0"
 
 SCOPE = ['email','user_likes']
 
 set :root, APP_ROOT
 
-use Rack::Session::Cookie, secret: 'BettyButterBoughtSomeButter' #secret passs phrase for cookie
+use Rack::Session::Cookie, secret: 'BettyButterBoughtSomeButter' #secret passphrase for cookie
 
 get '/' do
 	if session['access_token']
