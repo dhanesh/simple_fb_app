@@ -1,41 +1,39 @@
-<div class="container">
+<div id="container">
+	<div class="action-bar">
 	<% if session['access_token'] %>
-	<div class="action-bar">
 		<div class='text'>Welcome, <%= @profile["name"] %> <a href='/logout' class="button" >Logout</a></div>
-	</div>
 	<% else %>
-	<div class="action-bar">
-			<a href='/login' class="button" >Login</a>
-	</div>
+		<a href='/login' class="button" >Login</a>
 	<% end %>
-	<table>
-		<tr>
-			<td style='width:15%;'>&nbsp;</td>
-			<td style='width:70%;'>
-				<h1>Welcome to your Likes page</h1>
-			</td>
-			<td style='width:15%;'>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>
-			<% if @likes %>
-
-				<ul class='stream'>
-				  <% @likes.each do |like| %>
-				    <li ><%= like["name"] %></li>
-				  <% end %>
-				</ul>
-			<% else %>
-			 	<div>Please login to see your likes</div>  
+	</div>
+	<div>
+		<h1>Welcome to your Likes page</h1>	
+		<% if @likes %>
+			<%if @categories %>
+			<% @categories['category'].uniq.each do | category |%>
+				<div class='card'>
+					<div class='action-bar'><%= category %></div>
+					<ul class='stream'>
+						<% @likes.each do |like| %>
+				    		<%= if like["category"] == category then '<li>' + like["name"] + '</li>'  end %>
+						<% end %>
+					</ul>
+				</div>
+				<br/>
 			<% end %>
-			</td>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		</tr>
-	</table>
-</div>
+			<%else%>
+				<div>
+					<ul class='stream'>
+			  		<% @likes.each do |like| %>
+			    		<li ><%= like["name"] %></li>
+			  		<% end %>
+					</ul>
+				</div>
+			<% end %>
+		<% else %>
+			<ul class='stream'>
+				<li>Please login to see your likes</li>
+			</ul>
+			<% end %>
+	</div>			
+</div>	

@@ -58,6 +58,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin-top: 1em;
   margin-bottom: 0.5em;
+  margin-left: 1em;
 }
 
 h1, h2, h3 {
@@ -75,6 +76,7 @@ ul {
 
 p, li {
   margin-bottom: 0.5em;
+  margin-left: 1em;
 }
 
 strong {
@@ -135,6 +137,7 @@ ul.stream li {
   padding-right: 35px;
   list-style-type: none;
   border-width: 1px 0 0;
+  margin-left: 1.0em;
 }
 
 ul.stream li:first-child {
@@ -252,3 +255,7 @@ div.action-bar p {
 /* Main Frame Container */
 
 #container { background: white; width: 520px; }
+
+div.card{
+  box-shadow: 10px 10px 5px #888888;
+}

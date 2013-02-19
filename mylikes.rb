@@ -1,19 +1,16 @@
 APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__)))
 
-require 'rubygems'
-require 'sinatra'
-require 'koala'
-require 'yaml'
+%w(rubygems sinatra koala yaml).each { |gem| require gem}
 
 include Koala
 
 enable :sessions
 
-SITE_URL = 'http://localhost:4567/'
+SITE_URL = 'http://mylikesonfacebook.herokuapp.com/'
 
 #Here is the application id and secret
-APP_ID = 0 #Your App ID here
-APP_SECRET = "Your app secret here"
+APP_ID = 414082215348551 #Your App ID here
+APP_SECRET = "50029ee89725c434ae9ea57030698fb0"
 
 SCOPE = ['email','user_likes']
 
@@ -23,9 +20,11 @@ use Rack::Session::Cookie, secret: 'BettyButterBoughtSomeButter' #secret passphr
 
 get '/' do
 	if session['access_token']
+		
 		@graph = Facebook::API.new(session['access_token'])
 		@profile = @graph.get_object('me')
 		@likes = @graph.get_connection("me", "likes")
+		@categories = @likes.map(&:to_a).flatten(1).reduce({}) {|h,(k,v)| (h[k] ||= []) << v; h} #@likes.each{ |like| puts like['category'] }
 		erb :index
 	else
 		erb :index
